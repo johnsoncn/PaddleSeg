@@ -42,8 +42,9 @@ def save_result(alpha, path, im_path, trimap=None, fg_estimate=True):
         os.makedirs(dirname)
     basename = os.path.basename(path)
     name = os.path.splitext(basename)[0]
-    alpha_save_path = os.path.join(dirname, name + '_alpha.png')
-    rgba_save_path = os.path.join(dirname, name + '_rgba.png')
+    # alpha_save_path = os.path.join(dirname, name + '_alpha.png')
+    # rgba_save_path = os.path.join(dirname, name + '_rgba.png')
+    rgba_save_path = os.path.join(dirname, name + '.png') # 修改文件名，不加_rgba
 
     # save alpha matte
     if trimap is not None:
@@ -51,7 +52,7 @@ def save_result(alpha, path, im_path, trimap=None, fg_estimate=True):
         alpha[trimap == 0] = 0
         alpha[trimap == 255] = 255
     alpha = (alpha).astype('uint8')
-    cv2.imwrite(alpha_save_path, alpha)
+    # cv2.imwrite(alpha_save_path, alpha) # Johnson， 关闭alpha图像保存
 
     # save rgba
     im = cv2.imread(im_path)
@@ -63,6 +64,7 @@ def save_result(alpha, path, im_path, trimap=None, fg_estimate=True):
     alpha = alpha[:, :, np.newaxis]
     rgba = np.concatenate((fg, alpha), axis=-1)
     cv2.imwrite(rgba_save_path, rgba)
+    print(f'[INFO IMAGE MATTING] rgba image saved to {rgba_save_path}')
 
     return fg
 

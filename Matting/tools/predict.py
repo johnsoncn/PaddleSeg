@@ -73,8 +73,9 @@ def parse_args():
 
 def main(args):
     env_info = get_sys_env()
-    place = 'gpu' if env_info['Paddle compiled with cuda'] and env_info[
-        'GPUs used'] else 'cpu'
+    # place = 'gpu' if env_info['Paddle compiled with cuda'] and env_info[
+    #     'GPUs used'] else 'cpu'
+    place = 'cpu'
 
     paddle.set_device(place)
     if not args.cfg:
@@ -111,3 +112,28 @@ def main(args):
 if __name__ == '__main__':
     args = parse_args()
     main(args)
+
+
+    """
+    python tools/predict.py \
+    --config configs/quick_start/modnet-mobilenetv2.yml \
+    --model_path output/modnet-mobilenetv2.pdparams \
+    --image_path /home/dingchaofan/paddleseg/Matting/images \
+    --save_dir ./output/results \
+    --fg_estimate True
+    
+    python tools/predict.py \
+    --config output/modnet-resnet50_vd/deploy.yaml \
+    --model_path output/modnet-resnet50_vd/model.pdparams \
+    --image_path /home/dingchaofan/paddleseg/Matting/images \
+    --save_dir ./output/results \
+    --fg_estimate True
+    
+    python tools/predict.py \
+    --config configs/quick_start/modnet-mobilenetv2.yml \
+    --model_path output/modnet-mobilenetv2.pdparams \
+    --image_path /home/dingchaofan/3d_reconstruction_meshroom/data/20220916_141419_IMG_3965 \
+    --save_dir ./output/20220916_141419_IMG_3965 \
+    --fg_estimate True
+    
+    """
